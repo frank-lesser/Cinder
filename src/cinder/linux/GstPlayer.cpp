@@ -154,7 +154,11 @@ GstBusSyncReply checkBusMessagesSync( GstBus* bus, GstMessage* message, gpointer
             else if( g_strcmp0( context_type, "gst.gl.app_context" ) == 0 ) {
                 context = gst_context_new( "gst.gl.app_context", TRUE );
                 GstStructure *s = gst_context_writable_structure( context );
-                gst_structure_set( s, "context", GST_GL_TYPE_CONTEXT, data.context, nullptr );
+                #if defined( GST_TYPE_GL_CONTEXT )
+                    gst_structure_set( s, "context", GST_TYPE_GL_CONTEXT, data.context, nullptr );
+                #else
+                    gst_structure_set( s, "context", GST_GL_TYPE_CONTEXT, data.context, nullptr );
+                #endif
                 gst_element_set_context( GST_ELEMENT( message->src ), context );
             }
 
@@ -509,6 +513,13 @@ bool GstPlayer::initialize()
             holdDisplayRef = true;
 
         mGstData.context  = gst_gl_context_new_wrapped( sGstGLDisplay, (guintptr)platformData->mContext, GST_GL_PLATFORM_EGL, GST_GL_API_GLES2 );
+#elif defined( CINDER_HEADLESS_GL_OSMESA )
+        if( ! sGstGLDisplay )
+            sGstGLDisplay = gst_gl_display_new();
+        else
+            holdDisplayRef = true;
+
+        mGstData.context  = gst_gl_context_new_wrapped( sGstGLDisplay, (guintptr)platformData->mContext, GST_GL_PLATFORM_ANY, GST_GL_API_ANY );
 #else
         if( ! sGstGLDisplay )
             sGstGLDisplay = (GstGLDisplay*) gst_gl_display_x11_new_with_display( ::glfwGetX11Display() );

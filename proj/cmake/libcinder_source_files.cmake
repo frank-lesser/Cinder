@@ -19,7 +19,6 @@ list( APPEND SRC_SET_CINDER
 	${CINDER_SRC_DIR}/cinder/CinderMath.cpp
 	${CINDER_SRC_DIR}/cinder/Clipboard.cpp
 	${CINDER_SRC_DIR}/cinder/Color.cpp
-	${CINDER_SRC_DIR}/cinder/ConvexHull.cpp
 	${CINDER_SRC_DIR}/cinder/DataSource.cpp
 	${CINDER_SRC_DIR}/cinder/DataTarget.cpp
 	${CINDER_SRC_DIR}/cinder/Display.cpp
@@ -343,7 +342,6 @@ if( NOT CINDER_FREETYPE_USE_SYSTEM )
 		${CINDER_SRC_DIR}/freetype/base/ftglyph.c
 		${CINDER_SRC_DIR}/freetype/base/ftgxval.c
 		${CINDER_SRC_DIR}/freetype/base/ftinit.c
-		${CINDER_SRC_DIR}/freetype/base/ftlcdfil.c
 		${CINDER_SRC_DIR}/freetype/base/ftmm.c
 		${CINDER_SRC_DIR}/freetype/base/ftotval.c
 		${CINDER_SRC_DIR}/freetype/base/ftpatent.c
